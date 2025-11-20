@@ -195,71 +195,33 @@ async function analyzeEmotion() {
     }
 }
 
-// Volání Claude API
+// Volání Claude API přes proxy
 async function callClaudeAPI(apiKey, imageBase64, imageType) {
     let response;
     try {
-        response = await fetch('https://api.anthropic.com/v1/messages', {
+        // Použití proxy API místo přímého volání Anthropic API (kvůli CORS)
+        response = await fetch('/api/analyze', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': apiKey,
-                'anthropic-version': '2023-06-01'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'claude-sonnet-4-5-20250929',
-                max_tokens: 1024,
-            messages: [
-                {
-                    role: 'user',
-                    content: [
-                        {
-                            type: 'image',
-                            source: {
-                                type: 'base64',
-                                media_type: imageType,
-                                data: imageBase64
-                            }
-                        },
-                        {
-                            type: 'text',
-                            text: `Analyzuj tuto fotografii tváře a urči emoce, které osoba vyjadřuje.
-
-Proveď detailní analýzu a poskytni odpověď v následujícím formátu JSON:
-
-{
-  "primary_emotion": "název primární emoce (např. radost, smutek, vztek, strach, překvapení, znechucení, neutrální)",
-  "confidence": "vysoká/střední/nízká",
-  "detailed_analysis": "Podrobný popis výrazu tváře a pozorovaných emočních signálů (2-3 věty v češtině)",
-  "indicators": [
-    {
-      "feature": "název rysu (např. oči, ústa, obočí, celková tvář)",
-      "description": "popis tohoto rysu v češtině",
-      "emotion_signal": "jakou emoci tento rys signalizuje"
-    }
-  ],
-  "secondary_emotions": ["seznam dalších možných emocí, pokud jsou přítomny"],
-  "notes": "další poznámky nebo kontext (volitelné, v češtině)"
-}
-
-Odpověz POUZE validním JSON objektem bez dalšího textu.`
-                        }
-                    ]
-                }
-            ]
-        })
-    });
+                apiKey: apiKey,
+                image: imageBase64,
+                imageType: imageType
+            })
+        });
     } catch (fetchError) {
         console.error('Fetch error:', fetchError);
         if (fetchError.name === 'TypeError' && fetchError.message.includes('fetch')) {
-            throw new Error('Nelze se připojit k Claude API. Zkontrolujte internetové připojení nebo zkuste to později. (Network error)');
+            throw new Error('Nelze se připojit k API. Zkontrolujte internetové připojení nebo zkuste to později. (Network error)');
         }
         throw new Error(`Chyba připojení: ${fetchError.message}`);
     }
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error?.message || `API chyba: ${response.status} ${response.statusText}`);
+        throw new Error(errorData.error || `API chyba: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
