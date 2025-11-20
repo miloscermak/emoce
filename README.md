@@ -4,7 +4,7 @@ Webová aplikace pro analýzu emocí na základě výrazu tváře pomocí Claude
 
 ## ✨ Funkce
 
-- **AI analýza emocí**: Využití Claude 3.5 Sonnet pro detekci emocí z tváře
+- **AI analýza emocí**: Využití Claude Sonnet 4.5 pro detekci emocí z tváře
 - **Detailní zpráva**: Primární emoce, sekundární emoce a indikátory
 - **Vizuální náhled**: Preview nahraného obrázku před analýzou
 - **Drag & Drop**: Snadné nahrání fotografií přetažením
@@ -27,7 +27,7 @@ Webová aplikace pro analýzu emocí na základě výrazu tváře pomocí Claude
 - **HTML5**: Struktura aplikace
 - **CSS3**: Moderní a responzivní design
 - **JavaScript (ES6+)**: Logika aplikace a komunikace s API
-- **Claude API**: Anthropic Claude 3.5 Sonnet pro analýzu obrázků
+- **Claude API**: Anthropic Claude Sonnet 4.5 pro analýzu obrázků
 - **Fetch API**: Asynchronní komunikace s Claude API
 
 ## 📋 Požadavky
