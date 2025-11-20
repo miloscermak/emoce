@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analýza emocí z tváře - Claude AI</title>
+    <link rel="stylesheet" href="emotion-style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>😊 Analýza emocí z tváře</h1>
+            <p class="subtitle">Nahrajte fotografii tváře a Claude AI určí emoce</p>
+        </header>
+
+        <div class="api-key-section">
+            <div class="api-key-input">
+                <label for="apiKey">Claude API klíč:</label>
+                <input
+                    type="password"
+                    id="apiKey"
+                    placeholder="sk-ant-api03-..."
+                    autocomplete="off"
+                >
+                <button id="toggleApiKey" class="btn btn-icon" title="Zobrazit/Skrýt">👁️</button>
+            </div>
+            <p class="api-info">
+                Získejte API klíč na <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a>
+            </p>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <span class="upload-icon">📸</span>
+                    <p class="upload-text">Přetáhněte fotografii sem nebo klikněte pro výběr</p>
+                    <p class="upload-hint">Podporované formáty: JPG, PNG, WEBP (max 5MB)</p>
+                </div>
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                >
+            </div>
+
+            <div id="imagePreview" class="image-preview" style="display: none;">
+                <img id="previewImage" src="" alt="Náhled">
+                <button id="removeImage" class="btn btn-secondary">Odstranit obrázek</button>
+            </div>
+
+            <button id="analyzeBtn" class="btn btn-primary" disabled>
+                Analyzovat emoce
+            </button>
+        </div>
+
+        <div id="loadingSection" class="loading-section" style="display: none;">
+            <div class="spinner"></div>
+            <p>Claude analyzuje fotografii...</p>
+        </div>
+
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <div class="emotion-result">
+                <h2>Výsledek analýzy</h2>
+
+                <div class="primary-emotion">
+                    <h3>Primární emoce</h3>
+                    <div id="primaryEmotion" class="emotion-display"></div>
+                </div>
+
+                <div class="detailed-analysis">
+                    <h3>Detailní analýza</h3>
+                    <div id="detailedAnalysis" class="analysis-text"></div>
+                </div>
+
+                <div class="emotion-indicators">
+                    <h3>Indikátory emocí</h3>
+                    <div id="emotionIndicators" class="indicators-grid"></div>
+                </div>
+
+                <div class="confidence-note">
+                    <p><strong>Poznámka:</strong> Analýza emocí je založena na viditelných výrazech tváře a nemusí vždy odpovídat skutečným pocitům člověka.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>ℹ️ Jak to funguje</h3>
+            <ol>
+                <li>Zadejte váš Claude API klíč (klíč se ukládá pouze v prohlížeči)</li>
+                <li>Nahrajte fotografii lidské tváře</li>
+                <li>Claude AI analyzuje výraz tváře a určí emoce</li>
+                <li>Získáte detailní zprávu o rozpoznaných emocích</li>
+            </ol>
+
+            <div class="privacy-note">
+                <h4>🔒 Soukromí</h4>
+                <p>Váš API klíč je uložen pouze v prohlížeči a nikdy se neposílá jinam než přímo do Claude API. Fotografie se zpracovávají pouze prostřednictvím Anthropic API a nejsou ukládány.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Vytvořeno s pomocí Claude AI 🤖</p>
+    </footer>
+
+    <script src="emotion-app.js"></script>
+</body>
+</html>
