@@ -13,7 +13,7 @@ Webová aplikace pro analýzu emocí na základě výrazu tváře pomocí Claude
 
 ## 🚀 Jak používat
 
-1. **Otevřete aplikaci**: Otevřete [https://miloscermak.github.io/emoce/](https://miloscermak.github.io/emoce/) nebo lokálně `index.html`
+1. **Otevřete aplikaci**: Aplikace běží na Vercel (kvůli backend API proxy)
 2. **Zadejte API klíč**: Získejte Claude API klíč na [console.anthropic.com](https://console.anthropic.com/) a zadejte ho do formuláře
 3. **Nahrajte fotografii**: Přetáhněte fotografii tváře do upload oblasti nebo klikněte pro výběr souboru
 4. **Analyzujte**: Klikněte na tlačítko "Analyzovat emoce"
@@ -67,12 +67,34 @@ Aplikace dokáže rozpoznat širokou škálu emocí:
 - 😞 Zklamání
 - A další...
 
+## 🚀 Deployment
+
+Aplikace používá Vercel pro hosting a serverless API proxy (kvůli CORS omezením Anthropic API).
+
+### Nasazení na Vercel:
+
+1. Fork nebo clone tohoto repozitáře
+2. Vytvořte účet na [Vercel](https://vercel.com)
+3. Import projektu z GitHubu
+4. Vercel automaticky detekuje konfiguraci a nasadí aplikaci
+5. Hotovo! Aplikace běží včetně backend API proxy
+
+### Lokální vývoj:
+
+```bash
+# Nainstalujte Vercel CLI
+npm i -g vercel
+
+# Spusťte lokální dev server
+vercel dev
+```
+
 ## 🔒 Bezpečnost a soukromí
 
 - **API klíč**: Váš Claude API klíč je uložen pouze v localStorage vašeho prohlížeče
-- **Zpracování dat**: Fotografie se odesílají přímo do Anthropic API přes HTTPS
-- **Bez ukládání**: Žádné fotografie ani data nejsou ukládány na server
-- **Lokální běh**: Aplikace běží kompletně ve vašem prohlížeči
+- **Backend proxy**: API klíč je bezpečně předán přes serverless funkci (není exponován v browseru)
+- **Zpracování dat**: Fotografie se odesílají do Anthropic API přes backend proxy
+- **Bez ukládání**: Žádné fotografie ani data nejsou ukládány na serveru
 - **Bez cookies**: Aplikace nepoužívá cookies ani tracking
 
 ## 🎨 Barevná paleta
