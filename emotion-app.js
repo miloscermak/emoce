@@ -158,6 +158,12 @@ async function analyzeEmotion() {
         return;
     }
 
+    // Validace formátu API klíče
+    if (!apiKey.startsWith('sk-ant-')) {
+        alert('Neplatný formát API klíče. Claude API klíč by měl začínat "sk-ant-"');
+        return;
+    }
+
     if (!selectedImageBase64) {
         alert('Prosím, nahrajte fotografii.');
         return;
@@ -191,16 +197,18 @@ async function analyzeEmotion() {
 
 // Volání Claude API
 async function callClaudeAPI(apiKey, imageBase64, imageType) {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-            model: 'claude-sonnet-4-5-20250929',
-            max_tokens: 1024,
+    let response;
+    try {
+        response = await fetch('https://api.anthropic.com/v1/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model: 'claude-sonnet-4-5-20250929',
+                max_tokens: 1024,
             messages: [
                 {
                     role: 'user',
@@ -241,6 +249,13 @@ Odpověz POUZE validním JSON objektem bez dalšího textu.`
             ]
         })
     });
+    } catch (fetchError) {
+        console.error('Fetch error:', fetchError);
+        if (fetchError.name === 'TypeError' && fetchError.message.includes('fetch')) {
+            throw new Error('Nelze se připojit k Claude API. Zkontrolujte internetové připojení nebo zkuste to později. (Network error)');
+        }
+        throw new Error(`Chyba připojení: ${fetchError.message}`);
+    }
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
